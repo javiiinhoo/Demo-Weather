@@ -1,4 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Widget del Tiempo para Abegondo</title>
+</head>
+<body>
 <a class="weatherwidget-io" href="https://forecast7.com/es/43d22n8d30/abegondo/" data-label_1="ABEGONDO" data-icons="Climacons Animated" data-theme="original" >ABEGONDO</a>
 <script>
-!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+!function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0], retry = false;
+    function loadWidget(jsSrc) {
+        if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = jsSrc;
+            fjs.parentNode.insertBefore(js, fjs);
+        }
+    }
+    loadWidget('https://weatherwidget.io/js/widget.min.js');
+
+    // Intenta recargar el script si no se carga correctamente la primera vez
+    setTimeout(function() {
+        if (window.__weatherwidget_init === undefined) {
+            console.log('Recargando widget');
+            fjs.parentNode.removeChild(js);
+            loadWidget('https://weatherwidget.io/js/widget.min.js?'+new Date().getTime());
+        }
+    }, 5000); // Espera 5 segundos para verificar si se cargó correctamente
+}(document, 'script', 'weatherwidget-io-js');
 </script>
+</body>
+</html>
